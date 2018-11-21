@@ -13,7 +13,7 @@ findPeak <- function(x){
 # Extract TextGrid as list of tibbles
 loadGrid <- function(file, drop = NULL){
   require(rPraat)
-  require(tibble)
+  require(dplyr)
   require(purrr)
   # Load existing text grid
   oldGrid <- tg.read(file)
@@ -29,17 +29,19 @@ loadGrid <- function(file, drop = NULL){
 }
 
 # Extract Text Grid as one tibble
-loadGridLong <- function(file, drop = NULL, intGrp = TRUE){
+loadGridLong <- function(file, drop = NULL, group = NULL){
   require(dplyr)
+  require(tidyr)
   require(purrr)
   
   # Load grid list
   grid <- loadGrid(file, drop)
   
   # Get breaks for intonational phrase grouping
-  if(intGrp){
+  if(!is.null(group)){
     #Get intonational group onsets
-    intCuts <- grid$Intonation %>%
+    cuts <- grid %>%
+      pluck(group) %>%
       gather(label, times, t1:t2) %>%
       distinct(times) %>%
       pull(times)
@@ -54,7 +56,7 @@ loadGridLong <- function(file, drop = NULL, intGrp = TRUE){
     gather(level, label, -t1, -t2, -duration) %>%
     drop_na(label)
   
-  if(intGrp){dat <- mutate(dat, intGrp = cut(t1, intCuts, right = FALSE))}
+  if(!is.null(group)){dat <- mutate(dat, group = cut(t1, cuts, right = FALSE))}
   
   return(dat)
 }
