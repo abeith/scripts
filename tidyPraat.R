@@ -13,6 +13,7 @@ findPeak <- function(x){
 # Extract TextGrid as list of tibbles
 loadGrid <- function(file, drop = NULL){
   require(rPraat)
+  require(tibble)
   require(purrr)
   # Load existing text grid
   oldGrid <- tg.read(file)
