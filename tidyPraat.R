@@ -1,6 +1,9 @@
 # Wrapper for Praat function
-reTime <- function(name, newName= "retimed", script = "scripts/retimeSpeech.praat", praatPath = "/Applications/Praat.app/Contents/MacOS/Praat", args = "--run"){
-  system(paste(praatPath, args, script, name, newName))
+reTime <- function(name, newName= "retimed", script = "/scripts/retimeSpeech.praat", praatPath = "praat", args = "--run"){
+  # Quote path to allow spaces
+  scriptPath <- paste0("\"", getwd(), script, "\"")
+  
+  system(paste(praatPath, args, scriptPath, name, newName))
 }
 
 # Extract peak density value for a duration vector
