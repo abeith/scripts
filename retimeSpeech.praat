@@ -3,7 +3,7 @@ form Specify file
     text newName
 endform
 
-wd$ = "../"
+wd$ = "./"
 inPath$ = wd$ + "audio/" + name$ + ".wav"
 outPath$ = wd$ + "outputs/" + name$ + "_" + newName$ + ".wav"
 inGrid$ = wd$ + "newGrids/" + name$ + ".TextGrid"
