@@ -1,7 +1,14 @@
 # Wrapper for Praat function
-reTime <- function(name, newName= "retimed", script = "/scripts/retimeSpeech.praat", praatPath = "praat", args = "--run"){
-  # Quote path to allow spaces
-  if(grepl(" ", praatPath)){praatPath <- paste0("\"", praatPath, script, "\"")}
+reTime <- function(name, newName= "retimed", script = "/retimeSpeech.praat", praatPath = "C:\\Program Files\\praat6043_win64\\Praat.exe", args = "--run"){
+  # Quote path if using Windows
+  if(.Platform$OS.type == "windows"){
+    praatPath <- paste0("\"", praatPath, "\"")}
+  
+  # No need in Unix based system
+  if(.Platform$OS.type == "unix"){
+    praatPath <- "praat"
+  }
+  
   scriptPath <- paste0("\"", getwd(), script, "\"")
   
   system(paste(praatPath, args, scriptPath, name, newName))
